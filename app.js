@@ -53,38 +53,60 @@ const generateShop = () => {
 `;
     }).join(""))
 }
-
 generateShop()
 
 
-const decrement = (id) => {
+let increment = (id) => {
     let selectedItem = id
-    console.log(selectedItem.id)
-    console.log(basket)
 
-    let search = basket.find((e)=> e.id === selectedItem.id);
-    if (search.item === 0){
+    // We should define a search function because we need to check if the item is already in the basket or not. If it is already in the basket than we just need to decrement the quantity as 1
+    let search = basket.find((x)=>x.id===selectedItem.id)
+    if(search === undefined){
+        // if search cant find the item that already exist than to the push action
         basket.push({
-            id: selectedItem.id,
-            item: 1
+            id:selectedItem.id,
+            item:1
         })
-    }else {
-        search.item -= 1
-    }
-}
-const increment = (id) => {
-    let selectedItem = id
-    console.log(selectedItem.id)
-    console.log(basket)
-
-    let search = basket.find((e)=> e.id === selectedItem.id);
-    if (search === undefined){
-        basket.push({
-            id: selectedItem.id,
-            item: 1
-        })
-    }else {
+    } else{
+        // if we find the item that already exist then do this
         search.item += 1
     }
+    // console.log("increment")
+    // console.log(id)
+    // console.log(selectedItem.id)
+    
+    // After 'push'
+    // console.log(basket) 
+    update(selectedItem.id)
+
 }
-const update = () => {}
+let decrement = (id) => {
+    let selectedItem = id
+    let search = basket.find((x)=>x.id===selectedItem.id)
+    if(search.item === 0)return;
+     else{
+        // if we find the item that already exist then do this
+        search.item -= 1
+    }
+    // console.log("decrement")
+    // console.log(id)
+    // console.log(selectedItem.id)
+    
+    // After 'push'
+    // console.log(basket) 
+    // here is a bug; if item bigger than 0 then clicking decrement is working but if item quantity is equal to 0 then it is turning an error that item cant read. 
+    update(selectedItem.id)
+}
+let update = (id) => {
+    // this function should run every time clicked the increment and decrement buttons
+    let search = basket.find((x)=>x.id===id)
+    console.log(search.item)
+    document.getElementById(id).innerHTML = search.item
+    calculation() 
+}
+
+let calculation = () => {
+    // calculation function should always run when the update function runs
+    document.getElementById("cart-amount").innerHTML = basket.map((x)=>x.item).reduce((x,y)=>x+y,0)
+    // reduce x is previus value , reduce y is the next value and x always includes the previus values summery. The 0 is defult value.
+}

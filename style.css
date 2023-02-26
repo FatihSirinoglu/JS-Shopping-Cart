@@ -26,7 +26,7 @@ body{
 }
 .cart-amount{
     font-size: 16px;
-    background-color: red;
+    background-color: orange;
     color: #fff;
     position: absolute;
     top: -10px;
